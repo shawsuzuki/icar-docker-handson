@@ -1,0 +1,48 @@
+networks:
+  icar_handson_network1:
+    ipam:
+      config:
+      - subnet: 172.20.1.0/24
+  icar_handson_network2:
+    ipam:
+      config:
+      - subnet: 172.20.2.0/24
+
+services:
+  alice:
+    build:
+      context: ./
+      dockerfile: ./dockerfile_icar_handson
+    container_name: Alice
+    networks:
+      icar_handson_network1:
+        ipv4_address: 172.20.1.2
+    ports:
+    - 60001:5001
+    tty: true
+
+  bob:
+    build:
+      context: ./
+      dockerfile: ./dockerfile_icar_handson
+    container_name: Bob
+    networks:
+      icar_handson_network1:
+        ipv4_address: 172.20.1.3
+      icar_handson_network2:
+        ipv4_address: 172.20.2.2
+    ports:
+    - 60002:5001
+    tty: true
+
+  charlie:
+    build:
+      context: ./
+      dockerfile: ./dockerfile_icar_handson
+    container_name: Charlie
+    networks:
+      icar_handson_network2:
+        ipv4_address: 172.20.2.3
+    ports:
+    - 60003:5001
+    tty: true
